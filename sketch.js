@@ -1,6 +1,5 @@
 var helicopterIMG, helicopterSprite, packageSprite,packageIMG;
-var packageBody,ground;
-var box,box2,box3;
+var packageBody,ground
 const Engine = Matter.Engine;
 const World = Matter.World;
 const Bodies = Matter.Bodies;
@@ -21,20 +20,6 @@ function setup() {
 	packageSprite.addImage(packageIMG)
 	packageSprite.scale=0.2
 
-	//var helicopterSprite_options ={
-	//	isStatic : false
-	//}
-	//var packageSprite_options ={
-	//	restitution = 3
-	//}
-
-	box=new box1(275,745,200,20);
-	box.shapeColor= "red"
-	box2=new box1(275,745,20,100);
-	box2.shapeColor= "red"
-	box3=new box1(375,745,20,100);
-	box3.shapeColor= "red"
-
 	helicopterSprite=createSprite(width/2, 200, 10,10);
 	helicopterSprite.addImage(helicopterIMG)
 	helicopterSprite.scale=0.6
@@ -46,7 +31,7 @@ function setup() {
 	engine = Engine.create();
 	world = engine.world;
 
-	packageBody = Bodies.circle(width/2 , 200 , 5 , {restitution:1, isStatic:true});
+	packageBody = Bodies.circle(width/2 , 200 , 5 , {restitution:0.4, isStatic:true});
 	World.add(world, packageBody);
 	
 
@@ -54,12 +39,28 @@ function setup() {
 	ground = Bodies.rectangle(width/2, 650, width, 10 , {isStatic:true} );
  	World.add(world, ground);
 
-	 box = Bodies.rectangle(width/2 , 200 , 5 , {isStatic:true});
-	 World.add(world,box);
-	 box2 = Bodies.rectangle(width/2 , 200 , 5 , {isStatic:true});
-	 World.add(world,box2);
-	 box3 = Bodies.rectangle(width/2 , 200 , 5 , {isStatic:true});
-	 World.add(world,box3);
+ 	boxPosition=width/2-100
+ 	boxY=610;
+
+
+ 	boxleftSprite=createSprite(boxPosition, boxY, 20,100);
+ 	boxleftSprite.shapeColor=color(255,0,0);
+
+ 	boxLeftBody = Bodies.rectangle(boxPosition+20, boxY, 20,100 , {isStatic:true} );
+ 	World.add(world, boxLeftBody);
+
+ 	boxBase=createSprite(boxPosition+100, boxY+40, 200,20);
+ 	boxBase.shapeColor=color(255,0,0);
+
+ 	boxBottomBody = Bodies.rectangle(boxPosition+100, boxY+45-20, 200,20 , {isStatic:true} );
+ 	World.add(world, boxBottomBody);
+
+ 	boxleftSprite=createSprite(boxPosition+200 , boxY, 20,100);
+ 	boxleftSprite.shapeColor=color(255,0,0);
+
+ 	boxRightBody = Bodies.rectangle(boxPosition+200-20 , boxY, 20,100 , {isStatic:true} );
+ 	World.add(world, boxRightBody);
+
 
 	Engine.run(engine);
   
@@ -69,26 +70,22 @@ function setup() {
 function draw() {
   rectMode(CENTER);
   background(0);
-  Engine.update(engine);
-
+ 
   packageSprite.x= packageBody.position.x 
   packageSprite.y= packageBody.position.y 
 
-  box.display();
-  box2.display();
-  box3.display();
-
-  keyPressed();
- 
- // drawSprites();
+  
+  drawSprites();
+  
+  
  
 }
 
 function keyPressed() {
- if (keyCode === DOWN_ARROW) {
-	Matter.Body.setStatic(packageBody,false)
+  if  (keyCode === DOWN_ARROW) {
+    Matter.Body.setStatic(packageBody,false);
     
- }
+  }
 }
 
 
